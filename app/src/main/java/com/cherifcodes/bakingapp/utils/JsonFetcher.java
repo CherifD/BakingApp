@@ -17,6 +17,8 @@ public class JsonFetcher {
     private static final int READ_TIMEOUT = 10000;
     private static final int CONNECTION_TIMEOUT = 15000;
     private static final String HTTP_REQUEST_METHOD = "GET";
+    public static final String RECIPE_JSON_URL = "https://d17h27t6h515a5.cloudfront.net/topher/" +
+            "2017/May/59121517_baking/baking.json";
 
     /**
      * Builds a url needed to communicate with the network
