@@ -31,7 +31,7 @@ public class JsonToObjects {
                 // Get the recipe information
                 JSONObject currJsonRecipe = rootJsonArray.getJSONObject(i);
                 Recipe currRecipe = new Recipe(
-                        currJsonRecipe.getInt("id"),
+                        currJsonRecipe.getInt("id") - 1,
                         currJsonRecipe.getInt("servings"),
                         currJsonRecipe.getString("name"),
                         currJsonRecipe.getString("image"));
