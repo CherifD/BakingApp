@@ -1,5 +1,6 @@
 package com.cherifcodes.bakingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,8 +50,12 @@ public class RecipeStepsActivity extends AppCompatActivity implements StepClickL
             Toast.makeText(this, "There is no video available for this step.",
                     Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, mRecipeStepList.get(recipeStepId).getVideoUrlStr(),
-                    Toast.LENGTH_LONG).show();
+            /*Toast.makeText(this, mRecipeStepList.get(recipeStepId).getVideoUrlStr(),
+                    Toast.LENGTH_LONG).show();*/
+            Intent intent = new Intent(this, VideoPlayerActivity.class);
+            intent.putExtra(IntentConstants.VIDEO_URL_KEY,
+                    mRecipeStepList.get(recipeStepId).getVideoUrlStr());
+            startActivity(intent);
         }
     }
 }
