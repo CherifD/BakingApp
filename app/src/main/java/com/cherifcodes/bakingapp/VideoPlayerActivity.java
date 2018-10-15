@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -33,6 +34,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
     private SimpleExoPlayerView mSimpleExoPlayerView;
     private ProgressBar mProgressBar;
 
+    private TextView mStepDescription_tv;
     private String mCurrVideoUrl;
     private long mCurrPlayerPosition; // Used to restore the current state of the SimpleExoPlayer
 
@@ -47,6 +49,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_video_player);
         mSimpleExoPlayerView = findViewById(R.id.spv_simplePplayerView);
         mProgressBar = findViewById(R.id.progress_bar);
+        mStepDescription_tv = findViewById(R.id.tv_recipe_step_instruction);
         // Get the video url from the bundle
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
@@ -54,6 +57,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
             return;
         }
         mCurrVideoUrl = bundle.getString(IntentConstants.VIDEO_URL_KEY);
+        mStepDescription_tv.setText(bundle.getString(IntentConstants.STEP_DESCRIPTION_KEY));
 
         initializeExoplayer(Uri.parse(mCurrVideoUrl));
     }

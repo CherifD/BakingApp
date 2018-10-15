@@ -50,11 +50,11 @@ public class RecipeStepsActivity extends AppCompatActivity implements StepClickL
             Toast.makeText(this, "There is no video available for this step.",
                     Toast.LENGTH_LONG).show();
         } else {
-            /*Toast.makeText(this, mRecipeStepList.get(recipeStepId).getVideoUrlStr(),
-                    Toast.LENGTH_LONG).show();*/
             Intent intent = new Intent(this, VideoPlayerActivity.class);
             intent.putExtra(IntentConstants.VIDEO_URL_KEY,
                     mRecipeStepList.get(recipeStepId).getVideoUrlStr());
+            intent.putExtra(IntentConstants.STEP_DESCRIPTION_KEY,
+                    mRecipeStepList.get(recipeStepId).getDescription());
             startActivity(intent);
         }
     }
