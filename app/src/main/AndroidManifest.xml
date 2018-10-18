@@ -18,8 +18,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RecipeStepsActivity" />
-        <activity android:name=".VideoPlayerActivity"></activity>
+
+        <activity
+            android:name=".RecipeStepsActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="parent"
+                android:value=".MainActivity" />
+        </activity>
+        <!--<activity
+            android:name=".VideoPlayerActivity"
+            android:parentActivityName=".RecipeStepsActivity">
+            <meta-data
+                android:name="parent"
+                android:value=".RecipeStepsActivity"/>
+        </activity>-->
     </application>
 
 </manifest>

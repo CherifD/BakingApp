@@ -1,34 +1,20 @@
 package com.cherifcodes.bakingapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.widget.Toast;
 
-import com.cherifcodes.bakingapp.adaptersAndListeners.RecipeStepAdapter;
-import com.cherifcodes.bakingapp.adaptersAndListeners.StepClickListener;
-import com.cherifcodes.bakingapp.model.RecipeStep;
-import com.cherifcodes.bakingapp.utils.JsonToObjects;
-import com.cherifcodes.bakingapp.utils.ListProcessor;
+public class RecipeStepsActivity extends AppCompatActivity /*implements StepClickListener*/ {
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class RecipeStepsActivity extends AppCompatActivity implements StepClickListener {
-
-    private List<RecipeStep> mRecipeStepList = new ArrayList<>();
+    /*private List<RecipeStep> mRecipeStepList = new ArrayList<>();
     private RecyclerView mRecyclerView;
-    private RecipeStepAdapter mRecipeStepAdapter;
+    private RecipeStepAdapter mRecipeStepAdapter;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_steps);
 
-        mRecyclerView = findViewById(R.id.rclv_recipe_steps);
+        /*mRecyclerView = findViewById(R.id.rclv_recipe_steps);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         Bundle bundle = getIntent().getExtras();
@@ -38,11 +24,11 @@ public class RecipeStepsActivity extends AppCompatActivity implements StepClickL
         this.setTitle(bundle.getString(IntentConstants.RECIPE_NAME_KEY));
 
         mRecipeStepAdapter = new RecipeStepAdapter(mRecipeStepList, this);
-        mRecyclerView.setAdapter(mRecipeStepAdapter);
+        mRecyclerView.setAdapter(mRecipeStepAdapter);*/
 
     }
 
-    @Override
+    /*@Override
     public void onStepClicked(int recipeStepId) {
         String stepVideoUrl = mRecipeStepList.get(recipeStepId).getVideoUrlStr();
 
@@ -57,5 +43,5 @@ public class RecipeStepsActivity extends AppCompatActivity implements StepClickL
                     mRecipeStepList.get(recipeStepId).getDescription());
             startActivity(intent);
         }
-    }
+    }*/
 }

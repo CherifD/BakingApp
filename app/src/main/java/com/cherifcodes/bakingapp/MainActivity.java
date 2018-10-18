@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -19,11 +20,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecipeClickListener {
 
-    //private TextView displayJsonTextView;
-
+    private static final int NUM_RECYCLER_VIEW_COLUMNS = 3;
 
     private RecyclerView mRecyclerView;
-
     private List<Recipe> mRecipeList = new ArrayList<>();
     private RecipeAdapter mAdapter;
     @Override
@@ -31,10 +30,18 @@ public class MainActivity extends AppCompatActivity implements RecipeClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = findViewById(R.id.rclv_recipes);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Use a grid layout for tablet and a linear layout for phone
+        if (findViewById(R.id.rclv_recipes_tablet) != null) {
+            mRecyclerView = findViewById(R.id.rclv_recipes_tablet);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
+                    NUM_RECYCLER_VIEW_COLUMNS);
+            mRecyclerView.setLayoutManager(gridLayoutManager);
+        } else {
+            mRecyclerView = findViewById(R.id.rclv_recipes);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        }
 
-        //displayJsonTextView = findViewById(R.id.tv_display_json_result);
+
         new FetchRecipesAsync().execute(JsonFetcher.RECIPE_JSON_URL);
     }
 
@@ -71,23 +78,6 @@ public class MainActivity extends AppCompatActivity implements RecipeClickListen
             recipeStepList = ListProcessor.getRecipeStepsById(recipeStepList, mRecipeList.get(0)
                     .getRecipeId());*/
 
-            /*displayJsonTextView.append("recipeList size: " + mRecipeList.size() + "\n");
-            displayJsonTextView.append("ingredientList size: " + ingredientList.size() + "\n");
-            displayJsonTextView.append("recipeStepList size: " + recipeStepList.size() + "\n\n");
-
-            displayJsonTextView.append(mRecipeList.get(0).getRecipeName() + "\n");
-            displayJsonTextView.append(mRecipeList.get(0).getRecipeId() + "\n\n");
-
-            displayJsonTextView.append(ingredientList.get(0).getIngredientName() + "\n");
-            displayJsonTextView.append(ingredientList.get(0).getRecipeId() + "\n");
-            displayJsonTextView.append(ingredientList.get(0).getMeasureUnit() + "\n");
-            displayJsonTextView.append(ingredientList.get(0).getQuantity() + "\n\n");
-
-            displayJsonTextView.append(recipeStepList.get(0).getShortDescription() + "\n");
-            displayJsonTextView.append(recipeStepList.get(0).getRecipeId() + "\n");
-            displayJsonTextView.append(recipeStepList.get(0).getId() + "\n");
-            displayJsonTextView.append(recipeStepList.get(0).getDescription() + "\n");
-            displayJsonTextView.append(recipeStepList.get(0).getVideoUrlStr() + "\n");*/
         }
     }
 }

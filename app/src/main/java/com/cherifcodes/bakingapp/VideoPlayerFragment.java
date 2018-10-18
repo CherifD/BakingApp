@@ -1,11 +1,42 @@
 package com.cherifcodes.bakingapp;
 
+
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-public class VideoPlayerActivity extends AppCompatActivity {
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
-    /*public static final String EXO_PLAYER_ERROR_MSG = "Simple ExoPlayer error.";
+
+/**
+ * A {@link Fragment} subclass for streaming videos.
+ */
+public class VideoPlayerFragment extends Fragment {
+
+    public static final String EXO_PLAYER_ERROR_MSG = "Simple ExoPlayer error.";
     private static final String APP_NAME = "BakingApp";
     private SimpleExoPlayer mSimpleExoPlayer;
     private SimpleExoPlayerView mSimpleExoPlayerView;
@@ -14,39 +45,47 @@ public class VideoPlayerActivity extends AppCompatActivity {
     private TextView mStepDescription_tv;
     private String mCurrVideoUrl;
     private long mCurrPlayerPosition; // Used to restore the current state of the SimpleExoPlayer
-*/
+
+    public VideoPlayerFragment() {
+        // Required empty public constructor
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_player);
-
-        /*if (savedInstanceState != null) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
             mCurrPlayerPosition = savedInstanceState.getLong(IntentConstants.CURR_PLAYER_POSITION_KEY);
-        }*/
+        }
 
-        /*setContentView(R.layout.activity_video_player);
-        mSimpleExoPlayerView = findViewById(R.id.spv_simplePlayerView);
-        mProgressBar = findViewById(R.id.progress_bar);
-        mStepDescription_tv = findViewById(R.id.tv_recipe_step_instruction);
+        // Inflate the layout for this fragment
+        View fragmentLayoutView = inflater.inflate(R.layout.fragment_video_player, container, false);
+
+
+        mSimpleExoPlayerView = fragmentLayoutView.findViewById(R.id.spv_simplePlayerView);
+        mProgressBar = fragmentLayoutView.findViewById(R.id.progress_bar);
+        mStepDescription_tv = fragmentLayoutView.findViewById(R.id.tv_recipe_step_instruction);
         // Get the video url from the bundle
-        Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getActivity().getIntent().getExtras();
         if (bundle == null) {
-            finish();
-            return;
+            return fragmentLayoutView;
         }
         mCurrVideoUrl = bundle.getString(IntentConstants.VIDEO_URL_KEY);
         mStepDescription_tv.setText(bundle.getString(IntentConstants.STEP_DESCRIPTION_KEY));
 
-        initializeExoplayer(Uri.parse(mCurrVideoUrl));*/
+        initializeExoplayer(Uri.parse(mCurrVideoUrl));
+
+        return fragmentLayoutView;
     }
 
-    /*private void initializeExoplayer(Uri currVideoUri) {
+
+    private void initializeExoplayer(Uri currVideoUri) {
 
         if (mSimpleExoPlayer == null) {
             // Instantiate the SimpleExoPlayer
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
-            mSimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
+            mSimpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), trackSelector,
+                    loadControl);
 
             // Connect SimpleExoPlayer with SimpleExoPlayerView
             mSimpleExoPlayerView.setPlayer(mSimpleExoPlayer);
@@ -73,15 +112,17 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
         super.onSaveInstanceState(outState);
         mCurrPlayerPosition = mSimpleExoPlayer.getCurrentPosition();
         outState.putLong(IntentConstants.CURR_PLAYER_POSITION_KEY, mCurrPlayerPosition);
+
     }
 
-    *//**
+    /**
      * Release SimpleExoPlayer.
-     *//*
+     */
     private void releasePlayer() {
         mSimpleExoPlayer.stop();
         mSimpleExoPlayer.release();
@@ -127,8 +168,9 @@ public class VideoPlayerActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         releasePlayer();
-    }*/
+    }
+
 }
