@@ -26,13 +26,11 @@
                 android:name="parent"
                 android:value=".MainActivity" />
         </activity>
-        <!--<activity
-            android:name=".VideoPlayerActivity"
-            android:parentActivityName=".RecipeStepsActivity">
-            <meta-data
-                android:name="parent"
-                android:value=".RecipeStepsActivity"/>
-        </activity>-->
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+        <activity android:name=".VideoPlayerActivity"></activity>
     </application>
 
 </manifest>

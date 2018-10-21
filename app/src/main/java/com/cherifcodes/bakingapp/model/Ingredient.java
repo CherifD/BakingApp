@@ -1,37 +1,24 @@
 package com.cherifcodes.bakingapp.model;
 
-import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 /**
  * Represents a single ingredient for associated with the user's favorite recipe
  */
+@Entity(tableName = "Ingredients")
 public class Ingredient {
-
-    private int id;
+    @PrimaryKey
     private int recipeId;
     private int quantity;
     private String measureUnit;
     private String ingredientName;
 
-    public Ingredient(int id, int recipeId, int quantity, String measureUnit,
-                      String ingredientName) {
-        this.id = id;
-        this.recipeId = recipeId;
-        this.quantity = quantity;
-        this.measureUnit = measureUnit;
-        this.ingredientName = ingredientName;
-    }
-
-    @Ignore
     public Ingredient(int recipeId, int quantity, String measureUnit, String ingredientName) {
         this.recipeId = recipeId;
         this.quantity = quantity;
         this.measureUnit = measureUnit;
         this.ingredientName = ingredientName;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public int getRecipeId() {

@@ -46,6 +46,7 @@ public class VideoPlayerFragment extends Fragment {
     private String mCurrVideoUrl;
     private long mCurrPlayerPosition; // Used to restore the current state of the SimpleExoPlayer
 
+    View mFragmentLayoutView;
     public VideoPlayerFragment() {
         // Required empty public constructor
     }
@@ -53,30 +54,30 @@ public class VideoPlayerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Initialize the views for this fragment
+        mFragmentLayoutView = inflater.inflate(R.layout.fragment_video_player, container, false);
+        mSimpleExoPlayerView = mFragmentLayoutView.findViewById(R.id.spv_simplePlayerView);
+        mProgressBar = mFragmentLayoutView.findViewById(R.id.progress_bar);
+        mStepDescription_tv = mFragmentLayoutView.findViewById(R.id.tv_recipe_step_instruction);
         if (savedInstanceState != null) {
+            mCurrVideoUrl = savedInstanceState.getString(IntentConstants.VIDEO_URL_KEY);
             mCurrPlayerPosition = savedInstanceState.getLong(IntentConstants.CURR_PLAYER_POSITION_KEY);
+            initializeExoplayer(Uri.parse(mCurrVideoUrl));
+        } else {
+
+            // Get the video url from the bundle
+            Bundle bundle = getActivity().getIntent().getExtras();
+            if (bundle == null) {
+                Log.e(VideoPlayerFragment.class.getSimpleName(), "Null Bundle");
+            }
+            mCurrVideoUrl = bundle.getString(IntentConstants.VIDEO_URL_KEY);
+            mStepDescription_tv.setText(bundle.getString(IntentConstants.STEP_DESCRIPTION_KEY));
+
+            initializeExoplayer(Uri.parse(mCurrVideoUrl));
         }
 
-        // Inflate the layout for this fragment
-        View fragmentLayoutView = inflater.inflate(R.layout.fragment_video_player, container, false);
-
-
-        mSimpleExoPlayerView = fragmentLayoutView.findViewById(R.id.spv_simplePlayerView);
-        mProgressBar = fragmentLayoutView.findViewById(R.id.progress_bar);
-        mStepDescription_tv = fragmentLayoutView.findViewById(R.id.tv_recipe_step_instruction);
-        // Get the video url from the bundle
-        Bundle bundle = getActivity().getIntent().getExtras();
-        if (bundle == null) {
-            return fragmentLayoutView;
-        }
-        mCurrVideoUrl = bundle.getString(IntentConstants.VIDEO_URL_KEY);
-        mStepDescription_tv.setText(bundle.getString(IntentConstants.STEP_DESCRIPTION_KEY));
-
-        initializeExoplayer(Uri.parse(mCurrVideoUrl));
-
-        return fragmentLayoutView;
+        return mFragmentLayoutView;
     }
-
 
     private void initializeExoplayer(Uri currVideoUri) {
 
@@ -114,9 +115,9 @@ public class VideoPlayerFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        super.onSaveInstanceState(outState);
         mCurrPlayerPosition = mSimpleExoPlayer.getCurrentPosition();
         outState.putLong(IntentConstants.CURR_PLAYER_POSITION_KEY, mCurrPlayerPosition);
+        outState.putString(IntentConstants.VIDEO_URL_KEY, mCurrVideoUrl);
 
     }
 
@@ -124,9 +125,11 @@ public class VideoPlayerFragment extends Fragment {
      * Release SimpleExoPlayer.
      */
     private void releasePlayer() {
-        mSimpleExoPlayer.stop();
-        mSimpleExoPlayer.release();
-        mSimpleExoPlayer = null;
+        if (mSimpleExoPlayer != null) {
+            mSimpleExoPlayer.stop();
+            mSimpleExoPlayer.release();
+            mSimpleExoPlayer = null;
+        }
     }
 
     private void listenToExoPlayerEvents() {

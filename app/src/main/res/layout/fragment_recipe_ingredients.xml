@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".RecipeStepsFragment">
+    tools:context=".RecipeIngredientsFragment">
 
     <Button
-        android:id="@+id/btn_view_ingredients"
+        android:id="@+id/btn_view_steps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="view ingredients" />
+        android:text="@string/view_steps_button_label" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rclv_recipe_steps"
+        android:id="@+id/rclv_recipe_ingredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

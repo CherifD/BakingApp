@@ -5,14 +5,16 @@
     android:layout_height="wrap_content"
     tools:context=".RecipeStepsActivity">
 
-    <!--<android.support.v7.widget.RecyclerView
-        android:id="@+id/rclv_recipe_steps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />-->
-    <fragment
+    <!--<fragment
         android:id="@+id/fragment_recipe_steps"
         android:name="com.cherifcodes.bakingapp.RecipeStepsFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" />-->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
 </LinearLayout>

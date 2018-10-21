@@ -5,11 +5,16 @@
     android:layout_height="match_parent"
     tools:context=".VideoPlayerActivity">
 
-    <fragment
+    <FrameLayout
+        android:id="@+id/fmLyt_frament_video_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--<fragment
         android:id="@+id/fragment_video_player_landscape"
         android:name="com.cherifcodes.bakingapp.VideoPlayerFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
 
     <!--<com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/spv_simplePlayerView"

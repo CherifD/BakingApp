@@ -1,47 +1,56 @@
 package com.cherifcodes.bakingapp;
 
+
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
-public class RecipeStepsActivity extends AppCompatActivity /*implements StepClickListener*/ {
+import com.cherifcodes.bakingapp.adaptersAndListeners.FragmentSwapListener;
 
-    /*private List<RecipeStep> mRecipeStepList = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private RecipeStepAdapter mRecipeStepAdapter;*/
+public class RecipeStepsActivity extends AppCompatActivity implements FragmentSwapListener {
+    public static final String INGREDIENTS_FRAGMENT = "recipe ingredients fragment";
+    public static final String STEPS_FRAGMENT = "recipe steps fragment";
+
+    FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Must initialize the next two statements before checking savedInstanceState for null
         setContentView(R.layout.activity_recipe_steps);
+        mFragmentManager = getSupportFragmentManager();
 
-        /*mRecyclerView = findViewById(R.id.rclv_recipe_steps);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        if (savedInstanceState != null) return;
 
-        Bundle bundle = getIntent().getExtras();
-        int recipeId = bundle.getInt(IntentConstants.RECIPE_ID_KEY);
-        mRecipeStepList = ListProcessor.getRecipeStepsById(JsonToObjects.getRecipeStepList(),
-                recipeId);
-        this.setTitle(bundle.getString(IntentConstants.RECIPE_NAME_KEY));
-
-        mRecipeStepAdapter = new RecipeStepAdapter(mRecipeStepList, this);
-        mRecyclerView.setAdapter(mRecipeStepAdapter);*/
-
+        RecipeStepsFragment recipeStepsFragment = new RecipeStepsFragment();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragment_container, recipeStepsFragment, STEPS_FRAGMENT);
+        fragmentTransaction.commit();
     }
 
-    /*@Override
-    public void onStepClicked(int recipeStepId) {
-        String stepVideoUrl = mRecipeStepList.get(recipeStepId).getVideoUrlStr();
-
-        if (TextUtils.isEmpty(stepVideoUrl)) {
-            Toast.makeText(this, "There is no video available for this step.",
-                    Toast.LENGTH_LONG).show();
-        } else {
-            Intent intent = new Intent(this, VideoPlayerActivity.class);
-            intent.putExtra(IntentConstants.VIDEO_URL_KEY,
-                    mRecipeStepList.get(recipeStepId).getVideoUrlStr());
-            intent.putExtra(IntentConstants.STEP_DESCRIPTION_KEY,
-                    mRecipeStepList.get(recipeStepId).getDescription());
-            startActivity(intent);
+    @Override
+    public void onFragmentSwapped(String fragmentName) {
+        if (INGREDIENTS_FRAGMENT.equals(fragmentName)) {
+            if (mFragmentManager != null) {
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, new RecipeIngredientsFragment())
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                Log.e(RecipeStepsActivity.class.getSimpleName(), "Null fragmentManager, ingredients.");
+            }
+        } else if (STEPS_FRAGMENT.equals(fragmentName)) {
+            if (mFragmentManager != null) {
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, new RecipeStepsFragment())
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                Log.e(RecipeStepsActivity.class.getSimpleName(), "Null fragmentManager, recipes.");
+            }
         }
-    }*/
+
+    }
 }
