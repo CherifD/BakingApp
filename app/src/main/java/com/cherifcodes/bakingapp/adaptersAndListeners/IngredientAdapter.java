@@ -15,9 +15,13 @@ import java.util.List;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.ViewHolder> {
 
-    private List<Ingredient> mIngredientList = new ArrayList<>();
+    private List<Ingredient> mIngredientList;
 
-    public IngredientAdapter(List<Ingredient> ingredientList) {
+    public IngredientAdapter() {
+        mIngredientList = new ArrayList<>();
+    }
+
+    public void setIngredientList(List<Ingredient> ingredientList) {
         mIngredientList = ingredientList;
     }
 

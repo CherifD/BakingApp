@@ -13,7 +13,11 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
     public static final String INGREDIENTS_FRAGMENT = "recipe ingredients fragment";
     public static final String STEPS_FRAGMENT = "recipe steps fragment";
 
-    FragmentManager mFragmentManager;
+    private FragmentManager mFragmentManager;
+    /*private RecipeStepsActivityViewModel mViewModel;
+    private List<Ingredient> mCurrIngredientList;
+    private int mRecipeId;*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,29 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
         // Must initialize the next two statements before checking savedInstanceState for null
         setContentView(R.layout.activity_recipe_steps);
         mFragmentManager = getSupportFragmentManager();
+
+        /*Bundle bundle = getIntent().getExtras();
+        mRecipeId = bundle.getInt(IntentConstants.RECIPE_ID_KEY);
+
+        // Get the current list of ingredients
+        List<Ingredient> fullIngredientList = JsonToObjects.getIngredientList();
+        List<Ingredient> currIngredientList = ListProcessor.getIngredientsById(fullIngredientList,
+                mRecipeId);
+        // Insert the initial list of Ingredients into the database
+        Repository repository = Repository.getInstance(this);
+        repository.deleteAll();
+        for (Ingredient ingredient : currIngredientList)
+            repository.insertIngredients(ingredient);*/
+
+        /*RecipeStepsActivityViewModelFactory factory = new
+                RecipeStepsActivityViewModelFactory(this, recipeId);*/
+        /*mViewModel = ViewModelProviders.of(this).get(RecipeStepsActivityViewModel.class);
+        mViewModel.getAllIngredients().observe(this, new Observer<List<Ingredient>>() {
+            @Override
+            public void onChanged(@Nullable List<Ingredient> ingredientList) {
+                mCurrIngredientList = ingredientList;
+            }
+        });*/
 
         if (savedInstanceState != null) return;
 
@@ -53,4 +80,12 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
         }
 
     }
+
+    /**
+     * This method is called by the RecipeIngrientsFragment to populate its list of Ingredients
+     * @return the current list of
+     *//*
+    public List<Ingredient> getCurrIngredientList() {
+        return mCurrIngredientList;
+    }*/
 }

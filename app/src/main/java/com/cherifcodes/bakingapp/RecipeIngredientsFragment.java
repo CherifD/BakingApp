@@ -15,6 +15,7 @@ import com.cherifcodes.bakingapp.adaptersAndListeners.IngredientAdapter;
 import com.cherifcodes.bakingapp.model.Ingredient;
 import com.cherifcodes.bakingapp.utils.JsonToObjects;
 import com.cherifcodes.bakingapp.utils.ListProcessor;
+import com.cherifcodes.bakingapp.viewModels.RecipeStepsActivityViewModel;
 
 import java.util.List;
 
@@ -26,6 +27,9 @@ public class RecipeIngredientsFragment extends Fragment {
     private Button mViewStepsBtn;
     private RecyclerView mRecyclerView;
     private FragmentSwapListener mFragmentSwapListener;
+
+    private RecipeStepsActivityViewModel mViewModel;
+    private IngredientAdapter mIngredientAdapter;
 
     public RecipeIngredientsFragment() {
         // Required empty public constructor
@@ -41,6 +45,7 @@ public class RecipeIngredientsFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         // Retrieve recipeId and recipeName from the parent activity
+
         Bundle bundle = getActivity().getIntent().getExtras();
         this.getActivity().setTitle(bundle.getString(IntentConstants.RECIPE_NAME_KEY));
         int recipeId = bundle.getInt(IntentConstants.RECIPE_ID_KEY);
@@ -48,9 +53,24 @@ public class RecipeIngredientsFragment extends Fragment {
         List<Ingredient> fullIngredientList = JsonToObjects.getIngredientList();
         List<Ingredient> currIngredientList = ListProcessor.getIngredientsById(fullIngredientList,
                 recipeId);
+
         // Initialize the Ingredient list adapter and link it to the RecyclerView
-        IngredientAdapter ingredientAdapter = new IngredientAdapter(currIngredientList);
-        mRecyclerView.setAdapter(ingredientAdapter);
+        mIngredientAdapter = new IngredientAdapter();
+        /*mIngredientAdapter.setIngredientList(currIngredientList);
+        mRecyclerView.setAdapter(mIngredientAdapter);*/
+
+        /*mViewModel = ViewModelProviders.of(this).get(RecipeStepsActivityViewModel.class);
+        mViewModel.getAllIngredients().observe(this, new Observer<List<Ingredient>>() {
+            @Override
+            public void onChanged(@Nullable List<Ingredient> ingredientList) {
+                mIngredientAdapter.setIngredientList(ingredientList);
+                mIngredientAdapter.notifyDataSetChanged();
+            }
+        });*/
+
+        mIngredientAdapter.setIngredientList(currIngredientList);
+        mRecyclerView.setAdapter(mIngredientAdapter);
+
 
         // Initialize the FragmentSwapListener and link it to button clicks
         mFragmentSwapListener = (FragmentSwapListener) getActivity();
@@ -65,5 +85,4 @@ public class RecipeIngredientsFragment extends Fragment {
 
         return fragmentLayout;
     }
-
 }
