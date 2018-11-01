@@ -1,8 +1,12 @@
 <resources>
     <string name="app_name">Baking App</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_video_err_msg">There is no video available for this step.</string>
     <string name="view_steps_button_label">view steps</string>
+    <string name="appwidget_text">Empty ingredient list</string>
+    <string name="add_widget">Add widget</string>
+    <string name="save_ingredients">save</string>
+    <string name="baking_widget_title">Baking App</string>
+    <string name="baking_widget_app_launcher">Start App</string>
 </resources>

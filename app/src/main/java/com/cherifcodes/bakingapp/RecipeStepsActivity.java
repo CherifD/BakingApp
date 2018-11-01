@@ -1,6 +1,7 @@
 package com.cherifcodes.bakingapp;
 
-
+import android.appwidget.AppWidgetManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,16 +9,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.cherifcodes.bakingapp.adaptersAndListeners.FragmentSwapListener;
+import com.cherifcodes.bakingapp.model.Ingredient;
+import com.cherifcodes.bakingapp.model.Repository;
+import com.cherifcodes.bakingapp.services.FetchDataService;
+import com.cherifcodes.bakingapp.utils.JsonToObjects;
+import com.cherifcodes.bakingapp.utils.ListProcessor;
+
+import java.util.List;
 
 public class RecipeStepsActivity extends AppCompatActivity implements FragmentSwapListener {
     public static final String INGREDIENTS_FRAGMENT = "recipe ingredients fragment";
     public static final String STEPS_FRAGMENT = "recipe steps fragment";
 
     private FragmentManager mFragmentManager;
-    /*private RecipeStepsActivityViewModel mViewModel;
     private List<Ingredient> mCurrIngredientList;
-    private int mRecipeId;*/
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,28 +31,14 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
         setContentView(R.layout.activity_recipe_steps);
         mFragmentManager = getSupportFragmentManager();
 
-        /*Bundle bundle = getIntent().getExtras();
-        mRecipeId = bundle.getInt(IntentConstants.RECIPE_ID_KEY);
+        int recipeId = -1;
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) recipeId = bundle.getInt(IntentConstants.RECIPE_ID_KEY);
 
         // Get the current list of ingredients
         List<Ingredient> fullIngredientList = JsonToObjects.getIngredientList();
-        List<Ingredient> currIngredientList = ListProcessor.getIngredientsById(fullIngredientList,
-                mRecipeId);
-        // Insert the initial list of Ingredients into the database
-        Repository repository = Repository.getInstance(this);
-        repository.deleteAll();
-        for (Ingredient ingredient : currIngredientList)
-            repository.insertIngredients(ingredient);*/
-
-        /*RecipeStepsActivityViewModelFactory factory = new
-                RecipeStepsActivityViewModelFactory(this, recipeId);*/
-        /*mViewModel = ViewModelProviders.of(this).get(RecipeStepsActivityViewModel.class);
-        mViewModel.getAllIngredients().observe(this, new Observer<List<Ingredient>>() {
-            @Override
-            public void onChanged(@Nullable List<Ingredient> ingredientList) {
-                mCurrIngredientList = ingredientList;
-            }
-        });*/
+        mCurrIngredientList = ListProcessor.getIngredientsById(fullIngredientList,
+                recipeId);
 
         if (savedInstanceState != null) return;
 
@@ -55,6 +46,7 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, recipeStepsFragment, STEPS_FRAGMENT);
         fragmentTransaction.commit();
+        this.onSaveIngredients();
     }
 
     @Override
@@ -81,11 +73,26 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
 
     }
 
+    @Override
+    public void onSaveIngredients() {
+        // Insert the current list of Ingredients into the database
+        Repository repository = Repository.getInstance(this);
+        repository.deleteAll();
+        repository.insertIngredients(mCurrIngredientList);
+
+        // Update the widget
+        Intent fetchDataIntent = new Intent(getApplicationContext(), FetchDataService.class);
+        fetchDataIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, FetchDataService.getAppWidgetId());
+        getApplicationContext().startService(fetchDataIntent);
+        Log.i("RecipeSteAct", "Just saved ingredients!");
+    }
+
     /**
-     * This method is called by the RecipeIngrientsFragment to populate its list of Ingredients
-     * @return the current list of
-     *//*
+     * This method is called by the RecipeIngredientsFragment to populate its list of Ingredients
+     * @return the current list of Ingredients
+     */
+    @Override
     public List<Ingredient> getCurrIngredientList() {
         return mCurrIngredientList;
-    }*/
+    }
 }

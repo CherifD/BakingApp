@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +31,28 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <activity android:name=".VideoPlayerActivity"></activity>
+
+        <activity android:name=".VideoPlayerActivity" />
+
+        <receiver android:name=".BakingAppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <!--The following action allows updating the widget's list upon user clicks-->
+                <action android:name="com.cherifcodes.bakingapp.UPDATE_WIDGET_LIST" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_app_widget_info" />
+        </receiver>
+
+        <!--Allows communication between the listView addapter class and the widget-->
+        <service
+            android:name=".services.CollectionWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service android:name=".services.FetchDataService" />
+
     </application>
 
 </manifest>

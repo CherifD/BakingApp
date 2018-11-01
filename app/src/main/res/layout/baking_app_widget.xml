@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffdd"
+    android:orientation="vertical"
+    android:padding="@dimen/widget_margin">
+
+    <TextView
+        android:id="@+id/widget_title"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="@string/baking_widget_title"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/appwidget_listView"
+        android:layout_width="match_parent"
+        android:layout_height="64dp" />
+
+    <TextView
+        android:id="@+id/appwidget_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:background="#09C"
+        android:contentDescription="@string/appwidget_text"
+        android:text="@string/appwidget_text"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/app_launcher"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="@string/baking_widget_app_launcher"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+</LinearLayout>

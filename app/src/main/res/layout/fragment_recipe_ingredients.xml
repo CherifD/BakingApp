@@ -6,12 +6,27 @@
     android:orientation="vertical"
     tools:context=".RecipeIngredientsFragment">
 
-    <Button
-        android:id="@+id/btn_view_steps"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/view_steps_button_label" />
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_view_steps"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="2"
+            android:text="@string/view_steps_button_label" />
+
+        <Button
+            android:id="@+id/btn_save_ingredients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:text="@string/save_ingredients" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rclv_recipe_ingredients"

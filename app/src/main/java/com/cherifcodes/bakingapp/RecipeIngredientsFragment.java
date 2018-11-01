@@ -9,15 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cherifcodes.bakingapp.adaptersAndListeners.FragmentSwapListener;
 import com.cherifcodes.bakingapp.adaptersAndListeners.IngredientAdapter;
-import com.cherifcodes.bakingapp.model.Ingredient;
-import com.cherifcodes.bakingapp.utils.JsonToObjects;
-import com.cherifcodes.bakingapp.utils.ListProcessor;
-import com.cherifcodes.bakingapp.viewModels.RecipeStepsActivityViewModel;
-
-import java.util.List;
 
 
 /**
@@ -25,10 +20,9 @@ import java.util.List;
  */
 public class RecipeIngredientsFragment extends Fragment {
     private Button mViewStepsBtn;
+    private Button mSaveIngredientsBtn;
     private RecyclerView mRecyclerView;
     private FragmentSwapListener mFragmentSwapListener;
-
-    private RecipeStepsActivityViewModel mViewModel;
     private IngredientAdapter mIngredientAdapter;
 
     public RecipeIngredientsFragment() {
@@ -43,43 +37,35 @@ public class RecipeIngredientsFragment extends Fragment {
                 false);
         mRecyclerView = fragmentLayout.findViewById(R.id.rclv_recipe_ingredients);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        // Retrieve recipeId and recipeName from the parent activity
-
-        Bundle bundle = getActivity().getIntent().getExtras();
-        this.getActivity().setTitle(bundle.getString(IntentConstants.RECIPE_NAME_KEY));
-        int recipeId = bundle.getInt(IntentConstants.RECIPE_ID_KEY);
-        // Get the current list of ingredients
-        List<Ingredient> fullIngredientList = JsonToObjects.getIngredientList();
-        List<Ingredient> currIngredientList = ListProcessor.getIngredientsById(fullIngredientList,
-                recipeId);
-
         // Initialize the Ingredient list adapter and link it to the RecyclerView
         mIngredientAdapter = new IngredientAdapter();
-        /*mIngredientAdapter.setIngredientList(currIngredientList);
-        mRecyclerView.setAdapter(mIngredientAdapter);*/
 
-        /*mViewModel = ViewModelProviders.of(this).get(RecipeStepsActivityViewModel.class);
-        mViewModel.getAllIngredients().observe(this, new Observer<List<Ingredient>>() {
-            @Override
-            public void onChanged(@Nullable List<Ingredient> ingredientList) {
-                mIngredientAdapter.setIngredientList(ingredientList);
-                mIngredientAdapter.notifyDataSetChanged();
-            }
-        });*/
-
-        mIngredientAdapter.setIngredientList(currIngredientList);
-        mRecyclerView.setAdapter(mIngredientAdapter);
-
+        // Retrieve recipeId and recipeName from the parent activity
+        Bundle bundle = getActivity().getIntent().getExtras();
+        this.getActivity().setTitle(bundle.getString(IntentConstants.RECIPE_NAME_KEY));
 
         // Initialize the FragmentSwapListener and link it to button clicks
         mFragmentSwapListener = (FragmentSwapListener) getActivity();
+
+
+        mIngredientAdapter.setIngredientList(mFragmentSwapListener.getCurrIngredientList());
+        mRecyclerView.setAdapter(mIngredientAdapter);
+
         mViewStepsBtn = fragmentLayout.findViewById(R.id.btn_view_steps);
+        mSaveIngredientsBtn = fragmentLayout.findViewById(R.id.btn_save_ingredients);
         mViewStepsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mFragmentSwapListener.onFragmentSwapped(RecipeStepsActivity
                         .STEPS_FRAGMENT);
+            }
+        });
+
+        mSaveIngredientsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFragmentSwapListener.onSaveIngredients();
+                Toast.makeText(getActivity(), "Ingredients saved.", Toast.LENGTH_LONG).show();
             }
         });
 

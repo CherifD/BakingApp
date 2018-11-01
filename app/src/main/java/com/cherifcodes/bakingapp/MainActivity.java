@@ -10,9 +10,12 @@ import android.support.v7.widget.RecyclerView;
 
 import com.cherifcodes.bakingapp.adaptersAndListeners.RecipeAdapter;
 import com.cherifcodes.bakingapp.adaptersAndListeners.RecipeClickListener;
+import com.cherifcodes.bakingapp.model.Ingredient;
 import com.cherifcodes.bakingapp.model.Recipe;
+import com.cherifcodes.bakingapp.model.Repository;
 import com.cherifcodes.bakingapp.utils.JsonFetcher;
 import com.cherifcodes.bakingapp.utils.JsonToObjects;
+import com.cherifcodes.bakingapp.utils.ListProcessor;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -67,17 +70,20 @@ public class MainActivity extends AppCompatActivity implements RecipeClickListen
 
             JsonToObjects.processJsonStr(s);
 
+            // Get the list of recipes for the RecipeAdapter, initialize the adapter and pass the
+            // adapter to the recyclerView
             mRecipeList = JsonToObjects.getRecipeList();
             mAdapter = new RecipeAdapter(MainActivity.this);
             mAdapter.setRecipeList(mRecipeList);
             mRecyclerView.setAdapter(mAdapter);
-            /*List<Ingredient> ingredientList = JsonToObjects.getIngredientList();
+
+            // Save the initial list of ingredients to the database
+            List<Ingredient> ingredientList = JsonToObjects.getIngredientList();
             ingredientList = ListProcessor.getIngredientsById(ingredientList, mRecipeList.get(0)
                     .getRecipeId());
-            List<RecipeStep> recipeStepList = JsonToObjects.getRecipeStepList();
-            recipeStepList = ListProcessor.getRecipeStepsById(recipeStepList, mRecipeList.get(0)
-                    .getRecipeId());*/
-
+            Repository repository = Repository.getInstance(MainActivity.this);
+            repository.deleteAll();
+            repository.insertIngredients(ingredientList);
         }
     }
 }

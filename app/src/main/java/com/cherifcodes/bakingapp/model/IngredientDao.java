@@ -1,6 +1,5 @@
 package com.cherifcodes.bakingapp.model;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -12,12 +11,15 @@ import java.util.List;
 public interface IngredientDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertIngredient(Ingredient ingredient);
+    long[] insertAll(List<Ingredient> ingredientList);
 
     @Query("SELECT * FROM Ingredients ORDER BY recipeId DESC")
-    LiveData<List<Ingredient>> getAllIngredients();
+    List<Ingredient> getAllIngredients();
 
     @Query("DELETE FROM Ingredients")
     void deleteAll();
+
+    @Query("SELECT COUNT(*) FROM Ingredients")
+    long getNumberOfRecords();
 
 }
