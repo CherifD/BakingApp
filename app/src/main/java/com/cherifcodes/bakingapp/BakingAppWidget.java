@@ -3,13 +3,14 @@ package com.cherifcodes.bakingapp;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.cherifcodes.bakingapp.services.CollectionWidgetService;
-import com.cherifcodes.bakingapp.services.FetchDataService;
+import com.cherifcodes.bakingapp.services.FetchDataIntentService;
 
 import static com.cherifcodes.bakingapp.IntentConstants.UPDATE_WIDGET_LIST;
 
@@ -25,7 +26,9 @@ public class BakingAppWidget extends AppWidgetProvider {
             Log.i("BakingAppWidget", "onUpdate called inside for loop!");
 
             // Create an explicit intent to launch the FetchDataService
-            Intent fetchDataIntent = new Intent(context, FetchDataService.class);
+            //Intent fetchDataIntent = new Intent(context, FetchDataService.class);
+            Intent fetchDataIntent = new Intent(context, FetchDataIntentService.class);
+            fetchDataIntent.setAction(UPDATE_WIDGET_LIST);
             fetchDataIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
             context.startService(fetchDataIntent);
         }
@@ -79,16 +82,18 @@ public class BakingAppWidget extends AppWidgetProvider {
 
             // Create an PendingIntent to launch the FetchDataService and link it to the widget's
             // title clicks.
-            Intent launchIntent = new Intent(context, FetchDataService.class);
+            Intent launchIntent = new Intent(context, FetchDataIntentService.class);
             launchIntent.setAction(UPDATE_WIDGET_LIST);
             launchIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             PendingIntent launchMainPendingIntent = PendingIntent.getService(context, 0,
                     launchIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setOnClickPendingIntent(R.id.widget_title, launchMainPendingIntent);
 
+            int[] widgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, BakingAppWidget.class));
             // Have the AppWidgetManager update the widget
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.appwidget_listView);
             appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+            super.onUpdate(context, appWidgetManager, widgetIds);
         }
 
         super.onReceive(context, intent);

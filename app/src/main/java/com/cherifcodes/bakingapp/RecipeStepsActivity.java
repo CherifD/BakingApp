@@ -1,7 +1,5 @@
 package com.cherifcodes.bakingapp;
 
-import android.appwidget.AppWidgetManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,7 +9,6 @@ import android.util.Log;
 import com.cherifcodes.bakingapp.adaptersAndListeners.FragmentSwapListener;
 import com.cherifcodes.bakingapp.model.Ingredient;
 import com.cherifcodes.bakingapp.model.Repository;
-import com.cherifcodes.bakingapp.services.FetchDataService;
 import com.cherifcodes.bakingapp.utils.JsonToObjects;
 import com.cherifcodes.bakingapp.utils.ListProcessor;
 
@@ -46,7 +43,6 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, recipeStepsFragment, STEPS_FRAGMENT);
         fragmentTransaction.commit();
-        this.onSaveIngredients();
     }
 
     @Override
@@ -80,10 +76,6 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
         repository.deleteAll();
         repository.insertIngredients(mCurrIngredientList);
 
-        // Update the widget
-        Intent fetchDataIntent = new Intent(getApplicationContext(), FetchDataService.class);
-        fetchDataIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, FetchDataService.getAppWidgetId());
-        getApplicationContext().startService(fetchDataIntent);
         Log.i("RecipeSteAct", "Just saved ingredients!");
     }
 

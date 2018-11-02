@@ -62,4 +62,10 @@ public class Repository {
             }
         });
     }
+
+    public ArrayList<Ingredient> getCurrIngredients() {
+        ArrayList<Ingredient> localList = (ArrayList<Ingredient>) db.getIngredientDao().getAllIngredients();
+        Log.i("RepoGet3", "list size = " + localList.size());
+        return localList;
+    }
 }

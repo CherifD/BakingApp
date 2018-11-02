@@ -19,8 +19,7 @@ import com.cherifcodes.bakingapp.adaptersAndListeners.IngredientAdapter;
  * A simple {@link Fragment} subclass.
  */
 public class RecipeIngredientsFragment extends Fragment {
-    private Button mViewStepsBtn;
-    private Button mSaveIngredientsBtn;
+
     private RecyclerView mRecyclerView;
     private FragmentSwapListener mFragmentSwapListener;
     private IngredientAdapter mIngredientAdapter;
@@ -51,9 +50,9 @@ public class RecipeIngredientsFragment extends Fragment {
         mIngredientAdapter.setIngredientList(mFragmentSwapListener.getCurrIngredientList());
         mRecyclerView.setAdapter(mIngredientAdapter);
 
-        mViewStepsBtn = fragmentLayout.findViewById(R.id.btn_view_steps);
-        mSaveIngredientsBtn = fragmentLayout.findViewById(R.id.btn_save_ingredients);
-        mViewStepsBtn.setOnClickListener(new View.OnClickListener() {
+        Button viewStepsBtn = fragmentLayout.findViewById(R.id.btn_view_steps);
+        Button saveIngredientsBtn = fragmentLayout.findViewById(R.id.btn_save_ingredients);
+        viewStepsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mFragmentSwapListener.onFragmentSwapped(RecipeStepsActivity
@@ -61,11 +60,11 @@ public class RecipeIngredientsFragment extends Fragment {
             }
         });
 
-        mSaveIngredientsBtn.setOnClickListener(new View.OnClickListener() {
+        saveIngredientsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mFragmentSwapListener.onSaveIngredients();
-                Toast.makeText(getActivity(), "Ingredients saved.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.saved_ingredients_msg, Toast.LENGTH_LONG).show();
             }
         });
 

@@ -10,12 +10,9 @@ import android.support.v7.widget.RecyclerView;
 
 import com.cherifcodes.bakingapp.adaptersAndListeners.RecipeAdapter;
 import com.cherifcodes.bakingapp.adaptersAndListeners.RecipeClickListener;
-import com.cherifcodes.bakingapp.model.Ingredient;
 import com.cherifcodes.bakingapp.model.Recipe;
-import com.cherifcodes.bakingapp.model.Repository;
 import com.cherifcodes.bakingapp.utils.JsonFetcher;
 import com.cherifcodes.bakingapp.utils.JsonToObjects;
-import com.cherifcodes.bakingapp.utils.ListProcessor;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -76,14 +73,6 @@ public class MainActivity extends AppCompatActivity implements RecipeClickListen
             mAdapter = new RecipeAdapter(MainActivity.this);
             mAdapter.setRecipeList(mRecipeList);
             mRecyclerView.setAdapter(mAdapter);
-
-            // Save the initial list of ingredients to the database
-            List<Ingredient> ingredientList = JsonToObjects.getIngredientList();
-            ingredientList = ListProcessor.getIngredientsById(ingredientList, mRecipeList.get(0)
-                    .getRecipeId());
-            Repository repository = Repository.getInstance(MainActivity.this);
-            repository.deleteAll();
-            repository.insertIngredients(ingredientList);
         }
     }
 }

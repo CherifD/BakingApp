@@ -7,7 +7,7 @@ import android.widget.RemoteViewsService;
 
 import com.cherifcodes.bakingapp.R;
 import com.cherifcodes.bakingapp.model.Ingredient;
-import com.cherifcodes.bakingapp.services.FetchDataService;
+import com.cherifcodes.bakingapp.services.FetchDataIntentService;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,8 @@ public class IngredientListWidgetAdapter implements RemoteViewsService.RemoteVie
     public IngredientListWidgetAdapter(Context context) {
         mContext = context;
         mIngredientList = new ArrayList<>();
-        mIngredientList = FetchDataService.getIngredientList();
+        //mIngredientList = FetchDataService.getIngredientList();
+        mIngredientList = FetchDataIntentService.getIngredientList();
 
         if (mIngredientList != null)
             Log.i("ConsIngredientViewFact", "list size = " + mIngredientList.size());

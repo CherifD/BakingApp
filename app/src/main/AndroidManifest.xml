@@ -46,12 +46,12 @@
                 android:resource="@xml/baking_app_widget_info" />
         </receiver>
 
-        <!--Allows communication between the listView addapter class and the widget-->
+        <!--Allows communication between the listView adapter class and the widget-->
         <service
             android:name=".services.CollectionWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-        <service android:name=".services.FetchDataService" />
+        <service android:name=".services.FetchDataIntentService" />
 
     </application>
 
