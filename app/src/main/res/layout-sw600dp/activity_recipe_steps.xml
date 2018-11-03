@@ -7,27 +7,6 @@
     android:orientation="horizontal"
     tools:context=".RecipeStepsActivity">
 
-    <!--<fragment
-        android:id="@+id/fragment_recipe_steps"
-        android:name="com.cherifcodes.bakingapp.RecipeStepsFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_margin="16dp"
-        android:layout_weight="1" />
-
-    <View
-        android:id="@+id/vw_divider"
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary" />
-
-    <fragment
-        android:id="@+id/fragment_video_player_portrait_tab"
-        android:name="com.cherifcodes.bakingapp.VideoPlayerFragment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_weight="3" />-->
     <FrameLayout
         android:id="@+id/fragment_container_steps"
         android:name="com.cherifcodes.bakingapp.RecipeStepsFragment"

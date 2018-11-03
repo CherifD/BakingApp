@@ -10,4 +10,6 @@
     <string name="baking_widget_title">Baking App ... Update</string>
     <string name="baking_widget_app_launcher">Start App</string>
     <string name="saved_ingredients_msg">Ingredients saved.</string>
+    <string name="view_ingredients_btn_label">view ingredients</string>
+    <string name="servings">servings</string>
 </resources>
