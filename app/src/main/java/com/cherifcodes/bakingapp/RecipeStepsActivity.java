@@ -75,8 +75,6 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
         Repository repository = Repository.getInstance(this);
         repository.deleteAll();
         repository.insertIngredients(mCurrIngredientList);
-
-        Log.i("RecipeSteAct", "Just saved ingredients!");
     }
 
     /**

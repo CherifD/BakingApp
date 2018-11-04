@@ -27,23 +27,17 @@ public class FetchDataIntentService extends IntentService {
     public FetchDataIntentService() {
         super("FetchDataIntentService");
         mCurrIngredientList = new ArrayList<>();
-        //mCurrIngredientList = Repository.getInstance(FetchDataIntentService.this).getCurrIngredients();
     }
 
     public static ArrayList<Ingredient> getIngredientList() {
         return mCurrIngredientList;
     }
 
-    public static int getAppWidgetId() {
-        return widgetId;
-    }
-
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         mCurrIngredientList = Repository.getInstance(FetchDataIntentService.this).getCurrIngredients();
-        Log.i("FetchIntentService", "List_size is: " + mCurrIngredientList.size());
+
         if (intent != null) {
-            Log.i("FetchIntentService2", "Not null intent!!!");
             if (IntentConstants.UPDATE_WIDGET_LIST.equals(intent.getAction())) {
                 // Get the widget id
                 widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
@@ -76,6 +70,7 @@ public class FetchDataIntentService extends IntentService {
         // Broadcast the intent
         sendBroadcast(widgetUpdateIntent);
 
-        //this.stopSelf();
+        // Stop this service
+        this.stopSelf();
     }
 }

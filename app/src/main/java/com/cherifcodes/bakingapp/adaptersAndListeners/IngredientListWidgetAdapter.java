@@ -19,7 +19,6 @@ public class IngredientListWidgetAdapter implements RemoteViewsService.RemoteVie
     public IngredientListWidgetAdapter(Context context) {
         mContext = context;
         mIngredientList = new ArrayList<>();
-        //mIngredientList = FetchDataService.getIngredientList();
         mIngredientList = FetchDataIntentService.getIngredientList();
 
         if (mIngredientList != null)

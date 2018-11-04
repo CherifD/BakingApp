@@ -11,7 +11,6 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class JsonFetcher {
-    //
     private static final String TAG = JsonFetcher.class.getSimpleName();
     //Define HttpConnection settings
     private static final int READ_TIMEOUT = 10000;
