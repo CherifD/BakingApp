@@ -43,7 +43,7 @@ public class VideoPlayerFragment extends Fragment {
     private ProgressBar mProgressBar;
 
     private TextView mStepDescription_tv;
-    private String mCurrVideoUrl;
+    private String mCurrVideoUrl, mCurrStepDescription;
     private long mCurrPlayerPosition; // Used to restore the current state of the SimpleExoPlayer
 
     View mFragmentLayoutView;
@@ -61,17 +61,20 @@ public class VideoPlayerFragment extends Fragment {
         mStepDescription_tv = mFragmentLayoutView.findViewById(R.id.tv_recipe_step_instruction);
         if (savedInstanceState != null) {
             mCurrVideoUrl = savedInstanceState.getString(IntentConstants.VIDEO_URL_KEY);
+            mCurrStepDescription = savedInstanceState.getString(IntentConstants.STEP_DESCRIPTION_KEY);
+            mStepDescription_tv.setText(mCurrStepDescription);
             mCurrPlayerPosition = savedInstanceState.getLong(IntentConstants.CURR_PLAYER_POSITION_KEY);
             initializeExoplayer(Uri.parse(mCurrVideoUrl));
         } else {
-
             // Get the video url from the bundle
             Bundle bundle = getActivity().getIntent().getExtras();
             if (bundle == null) {
                 Log.e(VideoPlayerFragment.class.getSimpleName(), "Null Bundle");
             }
+
             mCurrVideoUrl = bundle.getString(IntentConstants.VIDEO_URL_KEY);
-            mStepDescription_tv.setText(bundle.getString(IntentConstants.STEP_DESCRIPTION_KEY));
+            mCurrStepDescription = bundle.getString(IntentConstants.STEP_DESCRIPTION_KEY);
+            mStepDescription_tv.setText(mCurrStepDescription);
 
             initializeExoplayer(Uri.parse(mCurrVideoUrl));
         }
@@ -118,7 +121,7 @@ public class VideoPlayerFragment extends Fragment {
         mCurrPlayerPosition = mSimpleExoPlayer.getCurrentPosition();
         outState.putLong(IntentConstants.CURR_PLAYER_POSITION_KEY, mCurrPlayerPosition);
         outState.putString(IntentConstants.VIDEO_URL_KEY, mCurrVideoUrl);
-
+        outState.putString(IntentConstants.STEP_DESCRIPTION_KEY, mCurrStepDescription);
     }
 
     /**
