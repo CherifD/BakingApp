@@ -27,6 +27,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements RecipeClickListener {
 
+    // Number of columns for the recipe list when running on a tablet
     private static final int NUM_RECYCLER_VIEW_COLUMNS = 3;
 
     @BindView(R.id.rclv_recipes)
