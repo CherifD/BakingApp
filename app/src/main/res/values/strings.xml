@@ -13,4 +13,5 @@
     <string name="view_ingredients_btn_label">view ingredients</string>
     <string name="servings">servings</string>
     <string name="no_internet_error_message">Please check your Internet connection and try again.</string>
+    <string name="no_recipe_image">no recipe image</string>
 </resources>
