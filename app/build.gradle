@@ -28,10 +28,6 @@ dependencies {
 
     // Picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    
-    // Butterknife
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     //Espresso dependencies including the espresso-contrib required for testing RecyclerView
     androidTestImplementation 'com.android.support:support-annotations:27.0.1'

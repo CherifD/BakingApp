@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.cherifcodes.bakingapp.services.CollectionWidgetService;
-import com.cherifcodes.bakingapp.services.FetchDataIntentService;
+import com.cherifcodes.bakingapp.services.FetchDataJobIntentService;
 
 import static com.cherifcodes.bakingapp.IntentConstants.UPDATE_WIDGET_LIST;
 
@@ -24,11 +24,12 @@ public class BakingAppWidget extends AppWidgetProvider {
         for (int i = 0; i < appWidgetIds.length; i++) {
 
             // Create an explicit intent to launch the FetchDataService
-            //Intent fetchDataIntent = new Intent(context, FetchDataService.class);
-            Intent fetchDataIntent = new Intent(context, FetchDataIntentService.class);
+            Intent fetchDataIntent = new Intent(context, FetchDataJobIntentService.class);
             fetchDataIntent.setAction(UPDATE_WIDGET_LIST);
             fetchDataIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
-            context.startService(fetchDataIntent);
+
+            //Start an intent service, taking into account the build version of the device
+            FetchDataJobIntentService.enqueueWork(context, fetchDataIntent);
         }
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -77,9 +78,9 @@ public class BakingAppWidget extends AppWidgetProvider {
             // Get the widget's layout with associated data
             RemoteViews remoteViews = updateWidgetListView(context, appWidgetId);
 
-            // Create an PendingIntent to launch the FetchDataService and link it to the widget's
+            // Create an PendingIntent to launch the FetchDatatJobIntentService and link it to the widget's
             // title clicks.
-            Intent launchIntent = new Intent(context, FetchDataIntentService.class);
+            Intent launchIntent = new Intent(context, FetchDataJobIntentService.class);
             launchIntent.setAction(UPDATE_WIDGET_LIST);
             launchIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             PendingIntent launchMainPendingIntent = PendingIntent.getService(context, 0,

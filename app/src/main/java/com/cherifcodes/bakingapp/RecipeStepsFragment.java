@@ -31,6 +31,7 @@ public class RecipeStepsFragment extends Fragment implements StepClickListener {
     private RecyclerView mRecyclerView;
     private RecipeStepAdapter mRecipeStepAdapter;
     private FragmentSwapListener fragmentSwapListener;
+    private StepClickListener mStepClickListener;
 
     public RecipeStepsFragment() {
         // Required empty public constructor
@@ -67,7 +68,8 @@ public class RecipeStepsFragment extends Fragment implements StepClickListener {
                 fragmentSwapListener.onFragmentSwapped(RecipeStepsActivity.INGREDIENTS_FRAGMENT);
             }
         });
-
+        // Initialize the RecipeClickListener
+        mStepClickListener = (StepClickListener) getActivity();
         return fragmentLayoutView;
     }
 
@@ -76,15 +78,22 @@ public class RecipeStepsFragment extends Fragment implements StepClickListener {
         String stepVideoUrl = mRecipeStepList.get(recipeStepId).getVideoUrlStr();
 
         if (TextUtils.isEmpty(stepVideoUrl)) {
-            Toast.makeText(this.getActivity(), R.string.no_video_err_msg, Toast.LENGTH_LONG).show();
-        } else {
+            Toast.makeText(this.getActivity(), R.string.no_video_err_msg,
+                    Toast.LENGTH_LONG).show();
+        } else if (!mStepClickListener.isTablet()) { // It's a phone, so launch the VideoPlayerActivity
             Intent intent = new Intent(this.getActivity(), VideoPlayerActivity.class);
             intent.putExtra(IntentConstants.VIDEO_URL_KEY,
                     mRecipeStepList.get(recipeStepId).getVideoUrlStr());
             intent.putExtra(IntentConstants.STEP_DESCRIPTION_KEY,
                     mRecipeStepList.get(recipeStepId).getDescription());
             startActivity(intent);
+        } else { // It's a tablet, so have the RecipeStepActivity handle the click
+            mStepClickListener.onStepClicked(recipeStepId);
         }
     }
 
+    @Override
+    public boolean isTablet() {
+        return false;
+    }
 }

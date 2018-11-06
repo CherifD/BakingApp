@@ -47,6 +47,7 @@ public class VideoPlayerFragment extends Fragment {
     private long mCurrPlayerPosition; // Used to restore the current state of the SimpleExoPlayer
 
     View mFragmentLayoutView;
+
     public VideoPlayerFragment() {
         // Required empty public constructor
     }
@@ -67,23 +68,22 @@ public class VideoPlayerFragment extends Fragment {
             initializeExoplayer(Uri.parse(mCurrVideoUrl));
         } else {
             // Get the video url from the bundle
-            Bundle bundle = getActivity().getIntent().getExtras();
-            if (bundle == null) {
+            Bundle argumentBundle = getArguments();
+            if (argumentBundle == null) {
                 Log.e(VideoPlayerFragment.class.getSimpleName(), "Null Bundle");
+                return null;
             }
+            mCurrVideoUrl = argumentBundle.getString(IntentConstants.VIDEO_URL_KEY);
+            mCurrStepDescription = argumentBundle.getString(IntentConstants.STEP_DESCRIPTION_KEY);
 
-            mCurrVideoUrl = bundle.getString(IntentConstants.VIDEO_URL_KEY);
-            mCurrStepDescription = bundle.getString(IntentConstants.STEP_DESCRIPTION_KEY);
             mStepDescription_tv.setText(mCurrStepDescription);
 
             initializeExoplayer(Uri.parse(mCurrVideoUrl));
         }
-
         return mFragmentLayoutView;
     }
 
     private void initializeExoplayer(Uri currVideoUri) {
-
         if (mSimpleExoPlayer == null) {
             // Instantiate the SimpleExoPlayer
             TrackSelector trackSelector = new DefaultTrackSelector();
@@ -139,17 +139,14 @@ public class VideoPlayerFragment extends Fragment {
         mSimpleExoPlayer.addListener(new ExoPlayer.EventListener() {
             @Override
             public void onTimelineChanged(Timeline timeline, Object manifest) {
-
             }
 
             @Override
             public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-
             }
 
             @Override
             public void onLoadingChanged(boolean isLoading) {
-
             }
 
             @Override
@@ -163,12 +160,10 @@ public class VideoPlayerFragment extends Fragment {
 
             @Override
             public void onPlayerError(ExoPlaybackException error) {
-
             }
 
             @Override
             public void onPositionDiscontinuity() {
-
             }
         });
     }
@@ -178,5 +173,4 @@ public class VideoPlayerFragment extends Fragment {
         super.onDestroy();
         releasePlayer();
     }
-
 }

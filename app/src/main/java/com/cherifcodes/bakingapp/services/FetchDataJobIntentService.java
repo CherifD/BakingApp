@@ -1,9 +1,10 @@
 package com.cherifcodes.bakingapp.services;
 
-import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.util.Log;
 
 import com.cherifcodes.bakingapp.IntentConstants;
@@ -14,19 +15,21 @@ import java.util.ArrayList;
 
 import static com.cherifcodes.bakingapp.IntentConstants.UPDATE_WIDGET_LIST;
 
-public class FetchDataIntentService extends IntentService {
+public class FetchDataJobIntentService extends JobIntentService {
 
+    /**
+     * Unique job ID for this service.
+     */
+    private static final int JOB_ID = 1010;
     private static ArrayList<Ingredient> mCurrIngredientList;
     private static int widgetId;
 
     /**
-     * Creates an IntentService.  Invoked by your subclass's constructor.
-     * <p>
-     * name Used to name the worker thread, important only for debugging.
+     * Convenience method for enqueuing work in to this service.
      */
-    public FetchDataIntentService() {
-        super("FetchDataIntentService");
+    public static void enqueueWork(Context context, Intent work) {
         mCurrIngredientList = new ArrayList<>();
+        enqueueWork(context, FetchDataJobIntentService.class, JOB_ID, work);
     }
 
     public static ArrayList<Ingredient> getIngredientList() {
@@ -34,8 +37,8 @@ public class FetchDataIntentService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
-        mCurrIngredientList = Repository.getInstance(FetchDataIntentService.this).getCurrIngredients();
+    protected void onHandleWork(@NonNull Intent intent) {
+        mCurrIngredientList = Repository.getInstance(FetchDataJobIntentService.this).getCurrIngredients();
 
         if (intent != null) {
             if (IntentConstants.UPDATE_WIDGET_LIST.equals(intent.getAction())) {

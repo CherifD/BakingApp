@@ -55,8 +55,7 @@ public class RecipeIngredientsFragment extends Fragment {
         viewStepsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mFragmentSwapListener.onFragmentSwapped(RecipeStepsActivity
-                        .STEPS_FRAGMENT);
+                mFragmentSwapListener.onFragmentSwapped(RecipeStepsActivity.STEPS_FRAGMENT);
             }
         });
 

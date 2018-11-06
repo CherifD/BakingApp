@@ -19,10 +19,10 @@ public class VideoPlayerActivity extends AppCompatActivity {
         if (savedInstanceState != null) return;
 
         VideoPlayerFragment videoPlayerFragment = new VideoPlayerFragment();
+        videoPlayerFragment.setArguments(getIntent().getExtras());
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fmLyt_frament_video_player, videoPlayerFragment,
                 VIDEO_FRAGMENT_TAG)
                 .commit();
     }
-
 }

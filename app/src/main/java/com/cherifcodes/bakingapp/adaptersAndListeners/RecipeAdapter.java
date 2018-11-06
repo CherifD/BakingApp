@@ -45,7 +45,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         Recipe recipe = mRecipeList.get(position);
         holder.recipeNameTv.setText(recipe.getRecipeName());
-        holder.servingSizeTv.setText(recipe.getServingSize());
+        holder.servingSizeTv.setText(String.valueOf(recipe.getServingSize()));
 
         // Use Picasso to load the recipe image
         try {
