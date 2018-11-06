@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements RecipeClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Use a grid layout for tablet and a linear layout for phone
+        // Utilize a grid layout for tablet and a linear layout for phone
         if (findViewById(R.id.rclv_recipes_tablet) != null) {
             mRecyclerView = findViewById(R.id.rclv_recipes_tablet);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
