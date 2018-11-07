@@ -16,7 +16,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,13 +35,10 @@
 
         <activity android:name=".VideoPlayerActivity" />
 
-        <receiver android:name=".BakingAppWidget">
+        <receiver android:name=".receivers.BakingAppWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <!--The following action allows updating the widget's list upon user clicks-->
-                <action android:name="com.cherifcodes.bakingapp.UPDATE_WIDGET_LIST" />
             </intent-filter>
-
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/baking_app_widget_info" />
@@ -51,10 +48,6 @@
         <service
             android:name=".services.CollectionWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
-        <service
-            android:name=".services.FetchDataJobIntentService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
 
     </application>
 

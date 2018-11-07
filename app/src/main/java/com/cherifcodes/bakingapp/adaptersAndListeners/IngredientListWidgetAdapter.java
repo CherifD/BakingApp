@@ -1,13 +1,14 @@
 package com.cherifcodes.bakingapp.adaptersAndListeners;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.cherifcodes.bakingapp.R;
 import com.cherifcodes.bakingapp.model.Ingredient;
-import com.cherifcodes.bakingapp.services.FetchDataJobIntentService;
+import com.cherifcodes.bakingapp.model.Repository;
 
 import java.util.ArrayList;
 
@@ -16,10 +17,9 @@ public class IngredientListWidgetAdapter implements RemoteViewsService.RemoteVie
     private ArrayList<Ingredient> mIngredientList;
     private Context mContext;
 
-    public IngredientListWidgetAdapter(Context context) {
+    public IngredientListWidgetAdapter(Context context, Intent intent) {
         mContext = context;
         mIngredientList = new ArrayList<>();
-        mIngredientList = FetchDataJobIntentService.getIngredientList();
 
         if (mIngredientList != null)
             Log.i("ConsIngredientViewFact", "list size = " + mIngredientList.size());
@@ -31,6 +31,9 @@ public class IngredientListWidgetAdapter implements RemoteViewsService.RemoteVie
 
     @Override
     public void onDataSetChanged() {
+        mIngredientList = Repository.getInstance(mContext).getCurrIngredients();
+        if (mIngredientList != null)
+            Log.i("ConsIngredientViewFact", "list size = " + mIngredientList.size());
     }
 
     @Override

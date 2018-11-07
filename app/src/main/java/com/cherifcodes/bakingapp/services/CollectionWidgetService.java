@@ -10,6 +10,6 @@ public class CollectionWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         // Instantiate the collection adapter with the loaded data
-        return new IngredientListWidgetAdapter(getApplicationContext());
+        return new IngredientListWidgetAdapter(getApplicationContext(), intent);
     }
 }
