@@ -22,10 +22,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside"
-            app:default_artwork="@drawable/ic_cake_pink_24dp"
             app:layout_constraintVertical_weight="3"
-            app:use_artwork="true" />
+            app:use_artwork="true">
 
+        </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+        <ImageView
+            android:id="@+id/imageView_cake"
+            android:layout_width="367dp"
+            android:layout_height="241dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_cake_pink_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/spv_simplePlayerView"
+            app:layout_constraintEnd_toEndOf="@+id/spv_simplePlayerView"
+            app:layout_constraintStart_toStartOf="@+id/spv_simplePlayerView"
+            app:layout_constraintTop_toTopOf="@+id/spv_simplePlayerView" />
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="48dp"
@@ -55,6 +67,5 @@
             tools:text="Recipe step instructions" />
 
     </android.support.constraint.ConstraintLayout>
-
 
 </ScrollView>

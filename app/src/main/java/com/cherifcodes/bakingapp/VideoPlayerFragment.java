@@ -1,7 +1,6 @@
 package com.cherifcodes.bakingapp;
 
 
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,8 +34,6 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-
 
 /**
  * A {@link Fragment} subclass for streaming videos.
@@ -50,10 +48,10 @@ public class VideoPlayerFragment extends Fragment {
     private ProgressBar mProgressBar;
 
     private TextView mStepDescription_tv;
+    private ImageView mCake_imv;
+    private View mFragmentLayoutView;
     private String mCurrVideoUrl, mCurrStepDescription, mCurrThumbnailImageUrl;
     private long mCurrPlayerPosition; // Used to restore the current state of the SimpleExoPlayer
-
-    View mFragmentLayoutView;
     private boolean mPlayWhenReady;
     private int mCurrentWindow;
 
@@ -69,6 +67,7 @@ public class VideoPlayerFragment extends Fragment {
         mSimpleExoPlayerView = mFragmentLayoutView.findViewById(R.id.spv_simplePlayerView);
         mProgressBar = mFragmentLayoutView.findViewById(R.id.progress_bar);
         mStepDescription_tv = mFragmentLayoutView.findViewById(R.id.tv_recipe_step_instruction);
+        mCake_imv = mFragmentLayoutView.findViewById(R.id.imageView_cake);
         if (savedInstanceState != null) {
             mCurrVideoUrl = savedInstanceState.getString(IntentConstants.VIDEO_URL_KEY);
             mCurrStepDescription = savedInstanceState.getString(IntentConstants.STEP_DESCRIPTION_KEY);
@@ -97,10 +96,8 @@ public class VideoPlayerFragment extends Fragment {
         // Check if both the video and thumbnail url strings are empty or null
         if (TextUtils.isEmpty(mCurrVideoUrl) && TextUtils.isEmpty(mCurrThumbnailImageUrl)) {
             // Load the default image as the background image.
-            mSimpleExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
-                    (getResources(), R.drawable.ic_cake_pink_24dp));
-            // Hide the progressbar
-            mProgressBar.setVisibility(View.INVISIBLE);
+            mCake_imv.setImageResource(R.drawable.ic_cake_pink_24dp);
+            hidePlayer();
         } else if (TextUtils.isEmpty(mCurrVideoUrl)) { // Invalid video url. Show thumbnail image
             // if it's valid and return.
             boolean isInvalidThumbnailUrlStr = mCurrThumbnailImageUrl.endsWith(".mp4") ||
@@ -108,32 +105,42 @@ public class VideoPlayerFragment extends Fragment {
             // Ensure that the thumbnail image url string is valid
             if (isInvalidThumbnailUrlStr) {
                 // Load the default image as the background image.
-                mSimpleExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource
-                        (getResources(), R.drawable.ic_cake_pink_24dp));
+                mCake_imv.setImageResource(R.drawable.ic_cake_pink_24dp);
             } else {
                 // Possibly valid thumbnail url. Try to load the thumbnail image
-                try {
-                    mSimpleExoPlayerView.setDefaultArtwork(
-                            Picasso.with(getActivity())
-                                    .load(mCurrThumbnailImageUrl)
-                                    .get());
-                } catch (IOException e) {
-                    Log.e(VideoPlayerActivity.class.getSimpleName(), THUMBNAIL_LOAD_ERROR_MSG);
-                    e.printStackTrace();
-                }
+                Picasso.with(getActivity())
+                        .load(mCurrThumbnailImageUrl)
+                        .error(R.drawable.ic_cake_pink_24dp)
+                        .into(mCake_imv);
             }
-            // Hide the progressbar
-            mProgressBar.setVisibility(View.INVISIBLE);
-
+            // Hide the progressbar and the Player
+            hidePlayer();
         } else if (mSimpleExoPlayer == null) { // Video url string is non-empty at this point
             playVideo(currVideoUri);
-
+            hideImage();
         } else {
             Log.i(VideoPlayerFragment.class.getSimpleName(), "Non null SimpleExoPlayer. " +
                     "No need to create a new one.");
         }
     }
 
+    /**
+     * Hide the progressbar and the PlayerView
+     */
+    private void hidePlayer() {
+        mSimpleExoPlayerView.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void hideImage() {
+        mCake_imv.setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * Starts streaming the video located at the specified url
+     *
+     * @param currVideoUri uri where the video is located
+     */
     private void playVideo(Uri currVideoUri) {
         // Instantiate the SimpleExoPlayer
         TrackSelector trackSelector = new DefaultTrackSelector();

@@ -46,7 +46,6 @@ public class RecipeIngredientsFragment extends Fragment {
         // Initialize the FragmentSwapListener and link it to button clicks
         mFragmentSwapListener = (FragmentSwapListener) getActivity();
 
-
         mIngredientAdapter.setIngredientList(mFragmentSwapListener.getCurrIngredientList());
         mRecyclerView.setAdapter(mIngredientAdapter);
 
