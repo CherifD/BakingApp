@@ -48,7 +48,7 @@ public class RecipeStepsFragment extends Fragment implements StepClickListener {
 
         // Retrieve recipeId and recipeName from the parent activity
         Bundle bundle = this.getActivity().getIntent().getExtras();
-        if (bundle == null) {
+        if (bundle == null) { // Ensure the bundle is not null
             Log.e(RecipeStepsFragment.class.getSimpleName(), "Null bundle!");
             return null;
         }
