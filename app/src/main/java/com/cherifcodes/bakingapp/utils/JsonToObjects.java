@@ -58,7 +58,8 @@ public class JsonToObjects {
                             currRecipe.getRecipeId(),
                             currJsonRecipeStep.getString("shortDescription"),
                             currJsonRecipeStep.getString("description"),
-                            currJsonRecipeStep.getString("videoURL"));
+                            currJsonRecipeStep.getString("videoURL"),
+                            currJsonRecipeStep.getString("thumbnailURL"));
                     recipeStepList.add(currRecipeStep);
                 }
 

@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.cherifcodes.bakingapp.adaptersAndListeners.FragmentSwapListener;
 import com.cherifcodes.bakingapp.adaptersAndListeners.StepClickListener;
@@ -140,25 +138,21 @@ public class RecipeStepsActivity extends AppCompatActivity implements FragmentSw
 
     @Override
     public void onStepClicked(int recipeStepId) {
+        VideoPlayerFragment videoPlayerFragment = new VideoPlayerFragment();
         // initialize the parameters for the VideoPlayerFragment
         String videoUrlString = mCurrRecipeStepList.get(recipeStepId).getVideoUrlStr();
+        String stepDescription = mCurrRecipeStepList.get(recipeStepId).getDescription();
+        String thumbnailImageUrlStr = mCurrRecipeStepList.get(recipeStepId).getThumbnailImageUrlStr();
+        Bundle bundle = new Bundle();
+        bundle.putString(IntentConstants.VIDEO_URL_KEY, videoUrlString);
+        bundle.putString(IntentConstants.STEP_DESCRIPTION_KEY, stepDescription);
+        bundle.putString(IntentConstants.THUMBNAIL_IMAGE_URL_KEY, thumbnailImageUrlStr);
+        videoPlayerFragment.setArguments(bundle);
 
-        if (TextUtils.isEmpty(videoUrlString)) {
-            Toast.makeText(this, R.string.no_video_err_msg, Toast.LENGTH_LONG).show();
-        } else {
-            VideoPlayerFragment videoPlayerFragment = new VideoPlayerFragment();
-            // initialize the parameters for the VideoPlayerFragment
-            String stepDescription = mCurrRecipeStepList.get(recipeStepId).getDescription();
-            Bundle bundle = new Bundle();
-            bundle.putString(IntentConstants.VIDEO_URL_KEY, videoUrlString);
-            bundle.putString(IntentConstants.STEP_DESCRIPTION_KEY, stepDescription);
-            videoPlayerFragment.setArguments(bundle);
-
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_video_player_container_tab, videoPlayerFragment)
-                    .addToBackStack(null)
-                    .commit();
-        }
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_video_player_container_tab, videoPlayerFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

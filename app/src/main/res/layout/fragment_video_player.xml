@@ -22,7 +22,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside"
-            app:layout_constraintVertical_weight="3" />
+            app:default_artwork="@drawable/ic_cake_pink_24dp"
+            app:layout_constraintVertical_weight="3"
+            app:use_artwork="true" />
 
         <ProgressBar
             android:id="@+id/progress_bar"

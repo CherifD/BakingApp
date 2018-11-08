@@ -10,14 +10,16 @@ public class RecipeStep {
     private String shortDescription;
     private String description;
     private String videoUrlStr;
+    private String thumbnailImageUrlStr;
 
     public RecipeStep(int id, int recipeId, String shortDescription, String description,
-                      String videoUrlStr) {
+                      String videoUrlStr, String thumbnailImageUrlStr) {
         this.id = id;
         this.recipeId = recipeId;
         this.shortDescription = shortDescription;
         this.description = description;
         this.videoUrlStr = videoUrlStr;
+        this.thumbnailImageUrlStr = thumbnailImageUrlStr;
     }
 
     public int getId() {
@@ -38,5 +40,9 @@ public class RecipeStep {
 
     public String getVideoUrlStr() {
         return videoUrlStr;
+    }
+
+    public String getThumbnailImageUrlStr() {
+        return thumbnailImageUrlStr;
     }
 }

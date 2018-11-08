@@ -5,12 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.cherifcodes.bakingapp.adaptersAndListeners.FragmentSwapListener;
 import com.cherifcodes.bakingapp.adaptersAndListeners.RecipeStepAdapter;
@@ -49,6 +48,10 @@ public class RecipeStepsFragment extends Fragment implements StepClickListener {
 
         // Retrieve recipeId and recipeName from the parent activity
         Bundle bundle = this.getActivity().getIntent().getExtras();
+        if (bundle == null) {
+            Log.e(RecipeStepsFragment.class.getSimpleName(), "Null bundle!");
+            return null;
+        }
         int recipeId = bundle.getInt(IntentConstants.RECIPE_ID_KEY);
         this.getActivity().setTitle(bundle.getString(IntentConstants.RECIPE_NAME_KEY));
 
@@ -75,17 +78,14 @@ public class RecipeStepsFragment extends Fragment implements StepClickListener {
 
     @Override
     public void onStepClicked(int recipeStepId) {
-        String stepVideoUrl = mRecipeStepList.get(recipeStepId).getVideoUrlStr();
-
-        if (TextUtils.isEmpty(stepVideoUrl)) {
-            Toast.makeText(this.getActivity(), R.string.no_video_err_msg,
-                    Toast.LENGTH_LONG).show();
-        } else if (!mStepClickListener.isTablet()) { // It's a phone, so launch the VideoPlayerActivity
+        if (!mStepClickListener.isTablet()) { // It's a phone, so launch the VideoPlayerActivity
             Intent intent = new Intent(this.getActivity(), VideoPlayerActivity.class);
             intent.putExtra(IntentConstants.VIDEO_URL_KEY,
                     mRecipeStepList.get(recipeStepId).getVideoUrlStr());
             intent.putExtra(IntentConstants.STEP_DESCRIPTION_KEY,
                     mRecipeStepList.get(recipeStepId).getDescription());
+            intent.putExtra(IntentConstants.THUMBNAIL_IMAGE_URL_KEY,
+                    mRecipeStepList.get(recipeStepId).getThumbnailImageUrlStr());
             startActivity(intent);
         } else { // It's a tablet, so have the RecipeStepActivity handle the click
             mStepClickListener.onStepClicked(recipeStepId);
